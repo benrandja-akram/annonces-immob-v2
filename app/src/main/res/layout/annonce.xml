@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
                 name="annonce"
                 type="dz.esi.immob.api.annonce.Annonce"
         />
     </data>
-    <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:padding="16dp"
-            android:background="@android:color/white"
+            android:layout_margin="8dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="4dp"
     >
-
-        <TextView
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{annonce.guid}"
-                android:id="@+id/annonceId"
-        />
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+        >
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{annonce.title}"
-                android:id="@+id/annonceTitle"
-        />
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    android:id="@+id/annonceImageView"
+            />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/whitesmoke"
+            />
 
-    </LinearLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{annonce.title}"
+                    android:id="@+id/annonceTitle"
+                    android:padding="12dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+            />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </layout>

@@ -22,8 +22,10 @@ class HomeFragment : Fragment(), Observer<Feed>{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
+        model = ViewModelProviders.of(activity!!)[AnnoncesViewModel::class.java]
+        model.refreshFeed()
         model.feed.observe(this, this)
+
     }
 
     override fun onCreateView(
@@ -35,6 +37,10 @@ class HomeFragment : Fragment(), Observer<Feed>{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.annonces_swipe_refresh.setOnRefreshListener {
+            model.refreshFeed()
+        }
+        view.annonces_recycler.adapter = AnnoncesAdapter(null)
     }
 
     override fun onDetach() {
@@ -48,7 +54,14 @@ class HomeFragment : Fragment(), Observer<Feed>{
 
     override fun onChanged(feed: Feed?) {
         feed?.items ?: return
-        view?.annonces_recycler?.adapter = AnnoncesAdapter(feed.items)
 
+        view?.apply {
+            annonces_swipe_refresh?.isRefreshing = false
+            annonces_recycler?.adapter?.apply {
+                this as AnnoncesAdapter
+                annonces = feed.items
+                notifyDataSetChanged()
+            }
+        }
     }
 }

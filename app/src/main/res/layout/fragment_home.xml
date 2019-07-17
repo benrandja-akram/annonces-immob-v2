@@ -4,9 +4,16 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".view.HomeFragment">
-    <androidx.recyclerview.widget.RecyclerView
-            android:background="@android:color/darker_gray"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_height="match_parent" android:id="@+id/annonces_recycler"/>
+            android:layout_height="match_parent"
+            android:id="@+id/annonces_swipe_refresh"
+    >
+        <androidx.recyclerview.widget.RecyclerView
+                android:background="@color/whitesmoke"
+                android:layout_width="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="match_parent" android:id="@+id/annonces_recycler"
+        />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>
