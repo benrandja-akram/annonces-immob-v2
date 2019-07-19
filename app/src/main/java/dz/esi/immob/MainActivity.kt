@@ -2,6 +2,7 @@ package dz.esi.immob
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -9,4 +10,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
 }

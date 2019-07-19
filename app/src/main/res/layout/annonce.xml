@@ -38,10 +38,24 @@
                     android:text="@{annonce.title}"
                     android:id="@+id/annonceTitle"
                     android:padding="12dp"
+                    android:paddingBottom="4dp"
                     android:maxLines="1"
                     android:ellipsize="end"
             />
-
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{annonce.publish}"
+                    android:gravity="right"
+                    android:id="@+id/annonceDate"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/pubdate"
+                    android:textSize="12sp"
+            />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

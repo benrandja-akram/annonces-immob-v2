@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "790320723989",
+    "firebase_url": "https://immob-7ba99.firebaseio.com",
+    "project_id": "immob-7ba99",
+    "storage_bucket": "immob-7ba99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790320723989:android:3a9f63a11178d64c",
+        "android_client_info": {
+          "package_name": "dz.esi.immob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790320723989-8mv3tuj3ldg4alni26jf1b2dausebsgo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTmlxvLSjuOcGkx2lTUYJSnk-Hql_e0j0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790320723989-8mv3tuj3ldg4alni26jf1b2dausebsgo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

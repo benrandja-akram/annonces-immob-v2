@@ -1,8 +1,13 @@
 apply plugin: 'com.android.application'
 
+
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+
+apply plugin: "androidx.navigation.safeargs"
+
 
 android {
     compileSdkVersion 29
@@ -52,4 +57,17 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+
+    implementation 'com.google.firebase:firebase-auth:18.1.0'
+
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+
+    implementation 'com.facebook.android:facebook-android-sdk:4.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

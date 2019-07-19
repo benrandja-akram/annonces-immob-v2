@@ -1,5 +1,7 @@
 package dz.esi.immob.api.annonce
 
+import android.util.Log
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class Annonce (
@@ -10,4 +12,8 @@ data class Annonce (
     val guid: String?,
     val image: String?,
     val publishDate: Date?
-)
+){
+    val publish: String?
+        get() = SimpleDateFormat("yyyy-MM-dd").format(publishDate)
+}
+

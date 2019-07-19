@@ -1,15 +1,25 @@
 package dz.esi.immob.adapters
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import dz.esi.immob.R
 import dz.esi.immob.api.annonce.Annonce
 import dz.esi.immob.databinding.AnnonceBinding
+import dz.esi.immob.view.FullScreenImageFragment
+import dz.esi.immob.view.FullScreenImageFragmentArgs
+import dz.esi.immob.view.HomeFragmentDirections
 import kotlinx.android.synthetic.main.annonce.view.*
 
 class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<AnnoncesAdapter.MyViewHolder>(){
@@ -37,6 +47,16 @@ class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<Annon
                 .placeholder(circularProgressDrawable)
                 .error(R.drawable.no_image_available)
                 .into(root.annonceImageView)
+
+            annonce?.image?.let {
+                val bundle = Bundle()
+                bundle.putString("guid", annonce?.guid)
+
+                root.setOnClickListener(
+                    Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_fullScreenImageFragment, bundle)
+                )
+            }
+
         }
     }
 

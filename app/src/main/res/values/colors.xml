@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="whitesmoke">#f7f7f7</color>
+    <color name="pubdate">#91000000</color>
 </resources>

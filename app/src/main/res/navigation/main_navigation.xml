@@ -5,5 +5,14 @@
             app:startDestination="@id/homeFragment">
 
     <fragment android:id="@+id/homeFragment" android:name="dz.esi.immob.view.HomeFragment" android:label="fragment_home"
-              tools:layout="@layout/fragment_home"/>
+              tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_homeFragment_to_fullScreenImageFragment"
+                app:destination="@id/fullScreenImageFragment"/>
+    </fragment>
+    <fragment android:id="@+id/fullScreenImageFragment"
+              android:name="dz.esi.immob.view.FullScreenImageFragment"
+              tools:layout="@layout/full_screen_image_fragment"
+              android:label="FullScreenImageFragment">
+        <argument android:name="guid" app:argType="string"/>
+    </fragment>
 </navigation>
