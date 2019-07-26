@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "790320723989-qeu14et9sgqa6bv739b1gv4fl2uh6eqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dz.esi.immob",
+            "certificate_hash": "5ae91ea93765c4544ef6e72373cd450ef4c12a38"
+          }
+        },
+        {
           "client_id": "790320723989-8mv3tuj3ldg4alni26jf1b2dausebsgo.apps.googleusercontent.com",
           "client_type": 3
         }

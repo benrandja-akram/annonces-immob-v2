@@ -2,30 +2,28 @@ package dz.esi.immob.adapters
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.RatingBar
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import dz.esi.immob.R
 import dz.esi.immob.api.annonce.Annonce
 import dz.esi.immob.databinding.AnnonceBinding
-import dz.esi.immob.view.FullScreenImageFragment
-import dz.esi.immob.view.FullScreenImageFragmentArgs
-import dz.esi.immob.view.HomeFragmentDirections
 import kotlinx.android.synthetic.main.annonce.view.*
 
-class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<AnnoncesAdapter.MyViewHolder>(){
+class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavAnnonceChangedListener)
+        : RecyclerView.Adapter<AnnoncesAdapter.MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding  = DataBindingUtil.inflate<AnnonceBinding>(LayoutInflater.from(parent.context), R.layout.annonce, parent, false)
+        val binding  = DataBindingUtil.inflate<AnnonceBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.annonce,
+            parent,
+            false
+        )
 
         return MyViewHolder(binding)
     }
@@ -33,6 +31,7 @@ class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<Annon
     override fun getItemCount() = annonces?.size ?: 0
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         holder.binding.apply {
             annonce = annonces?.get(position)
             root.annonceImageView
@@ -40,18 +39,18 @@ class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<Annon
             circularProgressDrawable.strokeWidth = 5f
             circularProgressDrawable.centerRadius = 30f
             circularProgressDrawable.start()
-
+            prefBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0, pref, p2 ->
+                listener.onFavChanged(annonce?.guid!!, pref == 1f )
+            }
             Glide.with(root)
                 .load(annonce?.image)
                 .fitCenter()
                 .placeholder(circularProgressDrawable)
                 .error(R.drawable.no_image_available)
                 .into(root.annonceImageView)
-
             annonce?.image?.let {
                 val bundle = Bundle()
                 bundle.putString("guid", annonce?.guid)
-
                 root.setOnClickListener(
                     Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_fullScreenImageFragment, bundle)
                 )
@@ -61,4 +60,9 @@ class AnnoncesAdapter(var annonces: List<Annonce>?) : RecyclerView.Adapter<Annon
     }
 
     class MyViewHolder(val binding: AnnonceBinding): RecyclerView.ViewHolder(binding.root)
+
+    interface OnFavAnnonceChangedListener{
+        fun onFavChanged(guid: String, value: Boolean)
+    }
+
 }

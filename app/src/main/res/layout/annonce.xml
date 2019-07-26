@@ -31,7 +31,6 @@
                     android:layout_height="1dp"
                     android:background="@color/whitesmoke"
             />
-
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,20 +41,39 @@
                     android:maxLines="1"
                     android:ellipsize="end"
             />
-            <TextView
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{annonce.publish}"
-                    android:gravity="right"
-                    android:id="@+id/annonceDate"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="8dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/pubdate"
-                    android:textSize="12sp"
-            />
+                    android:orientation="horizontal"
+                    android:gravity="center"
+            >
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{annonce.publish}"
+                        android:gravity="end"
+                        android:id="@+id/annonceDate"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="8dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/pubdate"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                />
+                <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/prefBar"
+                        android:progress="@{annonce.favorite}"
+                        android:numStars="1"
+                        android:stepSize="1"
+                        android:layout_marginStart="12dp"
+                />
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

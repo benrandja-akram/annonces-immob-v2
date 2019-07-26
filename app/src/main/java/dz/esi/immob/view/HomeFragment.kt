@@ -1,6 +1,5 @@
 package dz.esi.immob.view
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,16 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import dz.esi.immob.R
 import dz.esi.immob.adapters.AnnoncesAdapter
-import dz.esi.immob.api.annonce.AnnonceController
 import dz.esi.immob.api.annonce.Feed
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
-class HomeFragment : Fragment(), Observer<Feed>{
+class HomeFragment : Fragment(), Observer<Feed>, AnnoncesAdapter.OnFavAnnonceChangedListener{
     lateinit var model: AnnoncesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +34,7 @@ class HomeFragment : Fragment(), Observer<Feed>{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.annonces_recycler.adapter = AnnoncesAdapter(model.feed.value?.items)
+        view.annonces_recycler.adapter = AnnoncesAdapter(model.feed.value?.items, this)
         view.annonces_swipe_refresh?.setOnRefreshListener {
             model.refreshFeed()
         }
@@ -61,5 +58,14 @@ class HomeFragment : Fragment(), Observer<Feed>{
             }
         }
 
+    }
+
+    override fun onFavChanged(guid: String, value: Boolean) {
+        if(value){
+            model.addFavAnnonce(guid)
+        }
+        else {
+            model.deleteFavAnnonce(guid)
+        }
     }
 }

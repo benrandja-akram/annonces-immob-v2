@@ -5,13 +5,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Annonce (
-    val title: String,
-    val description: String?,
-    val link: String?,
-    val address: String?,
-    val guid: String?,
-    val image: String?,
-    val publishDate: Date?
+    val title: String? = null,
+    val description: String?= null,
+    val link: String?= null,
+    val address: String?= null,
+    val guid: String?= null,
+    val image: String?= null,
+    val publishDate: Date?= null,
+    var favorite: Int?= null
 ){
     val publish: String?
         get() = SimpleDateFormat("yyyy-MM-dd").format(publishDate)
