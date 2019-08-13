@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="annonce"
-                type="dz.esi.immob.api.annonce.Annonce"
+                type="dz.esi.immob.repositories.Annonce"
         />
     </data>
     <androidx.cardview.widget.CardView
@@ -47,7 +47,6 @@
                     android:orientation="horizontal"
                     android:gravity="center"
             >
-
                 <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -1,34 +1,59 @@
 package dz.esi.immob.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseAuth
-import dz.esi.immob.api.annonce.Annonce
-import dz.esi.immob.api.annonce.AnnonceController
-import dz.esi.immob.api.annonce.Feed
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Source
 
-class AnnoncesRepo{
-    var mFeed = MutableLiveData<Feed>()
-    var userRepo =  UserData()
+class AnnoncesRepo private constructor(){
 
-    fun getFeed(): MutableLiveData<Feed>{
-        AnnonceController().fetchAnnonces{feed ->
+    companion object{
+        val instance = AnnoncesRepo()
+    }
 
-            Log.i("tagtag", FirebaseAuth.getInstance().currentUser?.uid.toString())
-            userRepo.getFavAnnonces(
-                {query ->
-                    query.documents.forEach{ snapshot ->
-                        val annonce = snapshot.toObject<Annonce>(Annonce::class.java)
-                        feed?.items?.find {a ->
-                            a.guid == annonce?.guid
-                        }?.favorite = 1
+    var mFeed = MutableLiveData<List<Annonce>>()
+    val db = FirebaseFirestore.getInstance()
+
+    var userRepo = UserData.instance
+
+    init {
+        getFeed()
+    }
+
+    fun getFeed(): MutableLiveData<List<Annonce>> {
+        if (mFeed.value == null) {
+            db.collection("annonces")
+                .addSnapshotListener { value, e ->
+                    if (e != null) {
+                        return@addSnapshotListener
                     }
-                    mFeed.value = feed
-                },
-                {}
-            )
+                    val annoces = value?.toObjects(Annonce::class.java)
+                    userRepo.getFavAnnonces().value?.forEach{fav ->
+                        annoces?.forEach { annonce ->
+                            if(fav.id == annonce.id){
+                                annonce.favorite = 1
+                            }
+                        }
+                    }
+                    mFeed.postValue(annoces)
+                }
         }
         return mFeed
+    }
+
+    fun filter(criteria: Map<String, Any>): MutableLiveData<List<Annonce>>{
+        val ref = db.collection("annonces")
+        var query: Query? = null
+        val annonces = MutableLiveData<List<Annonce>>()
+
+        for((key, value) in criteria){
+            query = ref.whereEqualTo(key, value)
+        }
+        query?.get(Source.CACHE)
+            ?.addOnSuccessListener {
+                annonces.postValue(it.toObjects(Annonce::class.java))
+            }
+        return annonces
     }
 
 }

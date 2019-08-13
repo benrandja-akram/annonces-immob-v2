@@ -27,7 +27,7 @@ class FullScreenImageFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageSrc = model.getItemByGuid(args.guid)?.image
+        val imageSrc = model.getItemById(args.guid)?.image
 
         Glide.with(view)
             .load(imageSrc)
