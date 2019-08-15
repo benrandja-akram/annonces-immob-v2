@@ -65,8 +65,6 @@ class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavA
                     )
                 )
             }
-
-
         }
     }
 

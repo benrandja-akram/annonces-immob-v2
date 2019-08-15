@@ -19,19 +19,26 @@ class UserData private constructor() {
 
     init {
         getFavAnnonces()
+        getFavWilaya()
     }
 
-    fun setFavWilaya(id: String, wilaya: String) {
+    fun setFavWilaya(wilaya: String?) {
         db.collection("users")
-            .document(id)
+            .document(FirebaseAuth.getInstance().currentUser?.uid!!)
             .set(User(wilaya), SetOptions.merge())
     }
 
-    fun getFavWilaya(id: String): MutableLiveData<String> {
+    fun putString(key: String?, value: String?){
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser?.uid!!)
+            .set(mapOf(key to value), SetOptions.merge())
+    }
+
+    fun getFavWilaya(): MutableLiveData<String> {
 
         if(wilaya.value == null) {
             db.collection("users")
-                .document(id)
+                .document(FirebaseAuth.getInstance().currentUser?.uid!!)
                 .addSnapshotListener { value, e ->
                     if (e != null) {
                         return@addSnapshotListener

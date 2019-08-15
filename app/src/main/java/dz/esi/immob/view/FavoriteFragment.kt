@@ -1,40 +1,28 @@
 package dz.esi.immob.view
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import dz.esi.immob.R
 import dz.esi.immob.adapters.AnnoncesAdapter
 import dz.esi.immob.repositories.Annonce
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.view.annonces_recycler
 
-
-
-
-class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavAnnonceChangedListener {
+class FavoriteFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavAnnonceChangedListener {
     lateinit var model: AnnoncesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model = ViewModelProviders.of(activity!!)[AnnoncesViewModel::class.java]
-        model.items.observe(this, this)
-
-
-//        val items = model.filter(mapOf("wilaya" to "Oran"))
-//        Handler().postDelayed({
-//            this.onChanged(items.value)
-//        }, 10000)
+        model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
+        model.favorites.observe(this, this)
 
     }
 
@@ -47,9 +35,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.annonces_recycler.adapter = AnnoncesAdapter(model.items.value, this)
-
-
+        view.findViewById<RecyclerView>(R.id.annonces_recycler)?.adapter = AnnoncesAdapter(model.favorites.value, this)
     }
 
     override fun onChanged(feed: List<Annonce>?) {
@@ -57,7 +43,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
         feed ?: return
 
         view?.apply {
-            annonces_recycler?.adapter?.apply {
+            findViewById<RecyclerView>(R.id.annonces_recycler)?.adapter?.apply {
                 this as AnnoncesAdapter
                 annonces = feed
                 notifyDataSetChanged()
@@ -76,16 +62,19 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        annonces_recycler.layoutManager?.onRestoreInstanceState(model.state)
-        Log.i("recycle_annonces", "onViewStateRestored")
+        view?.findViewById<RecyclerView>(R.id.annonces_recycler)?.layoutManager?.onRestoreInstanceState(model.state)
+        Log.i("recycle_annoncess", "onViewStateRestored")
     }
 
     override fun onPause() {
         super.onPause()
-        model.state = annonces_recycler.layoutManager?.onSaveInstanceState()
+        println("favorite")
+        model.state = view?.findViewById<RecyclerView>(R.id.annonces_recycler)?.layoutManager?.onSaveInstanceState()
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as? AppCompatActivity)?.supportActionBar?.show()
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+
     }
 }

@@ -5,9 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.Source
 
-class AnnoncesRepo private constructor(){
+class AnnoncesRepo private constructor() {
 
-    companion object{
+    companion object {
         val instance = AnnoncesRepo()
     }
 
@@ -28,9 +28,9 @@ class AnnoncesRepo private constructor(){
                         return@addSnapshotListener
                     }
                     val annoces = value?.toObjects(Annonce::class.java)
-                    userRepo.getFavAnnonces().value?.forEach{fav ->
+                    userRepo.getFavAnnonces().value?.forEach { fav ->
                         annoces?.forEach { annonce ->
-                            if(fav.id == annonce.id){
+                            if (fav.id == annonce.id) {
                                 annonce.favorite = 1
                             }
                         }
@@ -41,19 +41,27 @@ class AnnoncesRepo private constructor(){
         return mFeed
     }
 
-    fun filter(criteria: Map<String, Any>): MutableLiveData<List<Annonce>>{
-        val ref = db.collection("annonces")
-        var query: Query? = null
-        val annonces = MutableLiveData<List<Annonce>>()
+    fun filter(title: String): List<Annonce> {
 
-        for((key, value) in criteria){
-            query = ref.whereEqualTo(key, value)
-        }
-        query?.get(Source.CACHE)
-            ?.addOnSuccessListener {
-                annonces.postValue(it.toObjects(Annonce::class.java))
-            }
-        return annonces
+        val items = mFeed.value?.filter {annonce ->
+            annonce.title?.toLowerCase()?.contains(title.toLowerCase()) ?: false
+        } ?: listOf()
+
+        return items
+
+//        return items
+//        val ref = db.collection("annonces")
+//        var query: Query? = null
+//        val annonces = MutableLiveData<List<Annonce>>()
+//
+//        for ((key, value) in criteria) {
+//            query = ref.whereEqualTo(key, value)
+//        }
+//        query?.get(Source.CACHE)
+//            ?.addOnSuccessListener {
+//                annonces.postValue(it.toObjects(Annonce::class.java))
+//            }
+//        return annonces
     }
 
 }

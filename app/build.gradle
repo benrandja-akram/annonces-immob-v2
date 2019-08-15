@@ -1,13 +1,10 @@
 apply plugin: 'com.android.application'
 
-
-
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "androidx.navigation.safeargs"
-
 
 android {
     compileSdkVersion 29
@@ -51,7 +48,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 
@@ -72,6 +68,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     implementation 'com.google.firebase:firebase-firestore:20.2.0'
+
+    implementation 'androidx.preference:preference-ktx:1.1.0-rc01'
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
+

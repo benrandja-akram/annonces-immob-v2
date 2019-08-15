@@ -5,5 +5,57 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="facebook_application_id">480681409409518</string>
-
+    <string-array name="wilayas">
+        <item>Ain Defla</item>
+        <item>Alger</item>
+        <item>Tizi ouzou</item>
+        <item>Ain Defla</item>
+        <item>Ain Defla</item>
+        <item>Ain Defla</item>
+        <item>Ain Defla</item>
+    </string-array>
 </resources>
+
+
+        <!--'1 -\tADRAR ',-->
+        <!--'2 -\tCHLEF ',-->
+        <!--'3 -\tLAGHOUAT ',-->
+        <!--'4 -\tOUM ',-->
+        <!--'5 -\tBATNA ',-->
+        <!--'6 -\tBEJAIA ',-->
+        <!--'7 -\tBISKRA ',-->
+        <!--'8 -\tBECHAR ',-->
+        <!--'9 -\tBLIDA ',-->
+        <!--'10 -\tBOUIRA ',-->
+        <!--'11 -\tTAMANRASSET ',-->
+        <!--'12 -\tTEBESSA ',-->
+        <!--'13 -\tTLEMCEN ',-->
+        <!--'14 -\tTIARET ',-->
+        <!--'15 -\tTIZI ',-->
+        <!--'16 -\tALGER ',-->
+        <!--'17 -\tDJELFA ',-->
+        <!--'18 -\tJIJEL ',-->
+        <!--'19 -\tSETIF ',-->
+        <!--'20 -\tSAIDA ',-->
+        <!--'21 -\tSKIKDA ',-->
+        <!--'22 -\tSIDI ',-->
+        <!--'23 -\tANNABA ',-->
+        <!--'24 -\tGUELMA ',-->
+        <!--'25 -\tCONSTANTINE ',-->
+        <!--'26 -\tMEDEA ',-->
+        <!--'27 -\tMOSTAGANEM ',-->
+        <!--'29 -\tMASCARA ',-->
+        <!--'30 -\tOUARGLA ',-->
+        <!--'31 -\tORAN ',-->
+        <!--'32 -\tEL ',-->
+        <!--'33 -\tILLIZI ',-->
+        <!--'34 -\tBORDJ ',-->
+        <!--'35 -\tBOUMERDES ',-->
+        <!--'36 -\tEL ',-->
+        <!--'37 -\tTINDOUF ',-->
+        <!--'38 -\tTISSEMSILT ',-->
+        <!--'39 -\tEL ',-->
+        <!--'40 -\tKHENCHLA ',-->
+        <!--'41 -\tSOUK ',-->
+        <!--'42 -\tTIPAZA ',-->
+        <!--'43 -\tMILA '-->

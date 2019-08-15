@@ -1,28 +1,42 @@
 package dz.esi.immob
 
 import android.app.Activity
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import dz.esi.immob.view.viewmodel.AnnoncesViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    lateinit var model: AnnoncesViewModel
+
     private val RC_SIGN_IN_FIREBASE = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
         if(!isAuthenticated()){
             auth()
         }
         else{
-            setContentView(R.layout.activity_main)
+            setupUi()
         }
     }
 
     private fun isAuthenticated() = FirebaseAuth.getInstance().currentUser != null
+
     private fun auth(){
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -45,8 +59,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 Log.i("user-signed", user.toString())
-                setContentView(R.layout.activity_main)
-
+                setupUi()
 //                startMainActivity()
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -57,9 +70,48 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun startMainActivity(){
-//        val intent = Intent(this, MainActivity::class.java)
-//        startActivity(intent)
-//    }
+    fun setupUi(){
+        setContentView(R.layout.activity_main)
+        bottomNavigationView.setupWithNavController(findNavController(R.id.main_nav_host_fragment))
+        setSupportActionBar(mainToolbar)
+        model.feed.observe(this, Observer {
+            model.updateItems()
+        })
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_actions, menu)
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu?.findItem(R.id.search)?.actionView as SearchView).apply {
+            setIconifiedByDefault(false)
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    model.filter(query?.trim() ?: "")
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    model.filter(newText?.trim() ?: "")
+                    return true
+                }
+            })
+            setOnCloseListener {
+                model.cancelFilter()
+                return@setOnCloseListener false
+            }
+        }
+        return true
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.filter -> {
+                println("filtring ... ")
+                return false
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
