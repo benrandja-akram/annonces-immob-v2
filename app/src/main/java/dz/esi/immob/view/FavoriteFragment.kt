@@ -74,7 +74,7 @@ class FavoriteFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.On
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+//        (activity as? AppCompatActivity)?.supportActionBar?.hide()
 
     }
 }

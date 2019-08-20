@@ -33,6 +33,6 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+//        (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
 }

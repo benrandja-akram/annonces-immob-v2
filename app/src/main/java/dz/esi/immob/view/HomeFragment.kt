@@ -76,6 +76,6 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as? AppCompatActivity)?.supportActionBar?.show()
+//        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 }

@@ -31,7 +31,7 @@ class FcmIntentService : FirebaseMessagingService() {
             val annonceId = remoteMessage.data["id"]
             val contentText = remoteMessage.data["contentText"]
 
-            showNotification(title, contentText, id++)
+            showNotification(annonceId, title, contentText, id++)
 
             annonceId?.apply {
                 notificationRepo.addNotification(this)
@@ -40,9 +40,10 @@ class FcmIntentService : FirebaseMessagingService() {
         }
     }
 
-    private fun showNotification(title: String?, contentText: String?, id: Int) {
+    private fun showNotification(id: String?, title: String?, contentText: String?, notifId: Int) {
 
         val resultIntent = Intent(this, AnnonceDetails::class.java)
+        resultIntent.putExtra("id", id)
         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -56,7 +57,7 @@ class FcmIntentService : FirebaseMessagingService() {
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
 
-        NotificationManagerCompat.from(this).notify(id, builder.build())
+        NotificationManagerCompat.from(this).notify(notifId, builder.build())
     }
 
 }

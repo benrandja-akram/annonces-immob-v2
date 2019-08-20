@@ -63,7 +63,7 @@ class NotificationsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as? AppCompatActivity)?.supportActionBar?.show()
+//        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
 }

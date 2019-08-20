@@ -1,5 +1,6 @@
 package dz.esi.immob.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -40,12 +41,18 @@ class AnnoncesRepo private constructor() {
     }
 
     fun findAnnonceById(id: String, consume: Consumer){
+        Log.e("exceptionannonce", id)
+
         db.collection("annonces")
             .document(id)
             .get()
             .addOnSuccessListener{ value ->
                 consume(value.toObject(Annonce::class.java))
             }
+            .addOnFailureListener{
+                Log.e("exceptionannonce", it.toString())
+            }
+
     }
 
     fun filter(title: String): List<Annonce> {
