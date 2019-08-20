@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.messaging.FirebaseMessaging
+
+
 
 
 class UserData private constructor() {
@@ -99,6 +102,28 @@ class UserData private constructor() {
 
         return annonces
     }
+
+    fun subscribeToTopic(topic: String, onSuccess: Runnable){
+        Log.i("fcmservice", "subscribing ...")
+
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess.run()
+                    Log.i("fcmservice", "scuccesfult subscription ... ")
+
+                }else
+                    Log.i("fcmservice", "failed subscription ... ")
+
+            }
+            .addOnFailureListener{
+                Log.i("fcmservice", "addOnFailureListener subscription ... ")
+
+            }
+
+    }
+
+
 
 }
 

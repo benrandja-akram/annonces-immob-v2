@@ -2,8 +2,6 @@ package dz.esi.immob.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.Source
 
 class AnnoncesRepo private constructor() {
 
@@ -41,6 +39,15 @@ class AnnoncesRepo private constructor() {
         return mFeed
     }
 
+    fun findAnnonceById(id: String, consume: Consumer){
+        db.collection("annonces")
+            .document(id)
+            .get()
+            .addOnSuccessListener{ value ->
+                consume(value.toObject(Annonce::class.java))
+            }
+    }
+
     fun filter(title: String): List<Annonce> {
 
         val items = mFeed.value?.filter {annonce ->
@@ -65,3 +72,6 @@ class AnnoncesRepo private constructor() {
     }
 
 }
+typealias Consumer = (Annonce?) -> Unit
+
+

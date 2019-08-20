@@ -1,6 +1,7 @@
 package dz.esi.immob.view.viewmodel
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -19,6 +20,8 @@ class AnnoncesViewModel : ViewModel() {
     val items = MutableLiveData<List<Annonce>>().also {
         it.value = feed.value
     }
+    var unfilterItems: List<Annonce>? = null
+
     val favorites = userRepo.getFavAnnonces()
     var state: Parcelable? = null
 
@@ -29,6 +32,30 @@ class AnnoncesViewModel : ViewModel() {
         items.value = repo.filter(title)
     }
 
+    fun filter(wilaya: String?, category: String?, type: String?){
+        unfilterItems = items.value
+
+        items.value = items.value?.filter {annonce ->
+//            wilaya?.let {
+//                (it == annonce.wilaya)
+//            } ?: true && category?.let {
+//                (it == annonce.category)
+//            } ?: true && type?.let {
+//                it == annonce.type
+//            } ?: true
+            val isSameWilaya = if(wilaya == null) true else wilaya == annonce.wilaya
+            val isSameCategory = if(category == null) true else category == annonce.category
+            val isSameType = if(type == null) true else type == annonce.type
+
+            isSameWilaya && isSameCategory && isSameType && false
+
+        }.also{
+            Log.i("FilterDialogFragment", it?.size.toString())
+        }
+    }
+    fun cancelDialogFilter(){
+        items.value = unfilterItems
+    }
     fun cancelFilter(){
         items.value = feed.value
     }

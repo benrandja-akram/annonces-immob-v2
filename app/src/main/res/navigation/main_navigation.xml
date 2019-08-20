@@ -23,4 +23,6 @@
               android:name="dz.esi.immob.view.SettingsFragment"
               tools:layout="@layout/settings_fragment"
               android:label="SettingsFragment"/>
+    <fragment android:id="@+id/notificationsFragment" android:name="dz.esi.immob.view.NotificationsFragment"
+              android:label="fragment_notifications" tools:layout="@layout/fragment_notifications"/>
 </navigation>

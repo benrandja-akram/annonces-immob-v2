@@ -1,14 +1,18 @@
 package dz.esi.immob
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +20,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import dz.esi.immob.repositories.UserData
+import dz.esi.immob.services.CHANNEL_ID
+import dz.esi.immob.services.FcmIntentService
+import dz.esi.immob.view.FilterDialogFragment
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,13 +32,22 @@ class MainActivity : AppCompatActivity() {
 
     private val RC_SIGN_IN_FIREBASE = 4
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel()
+        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
+            startService(Intent(this, FcmIntentService::class.java))
+            println("subscribed ... ")
+            Toast.makeText(this, "subscribed...", Toast.LENGTH_LONG)
+                .show()
+        })
         model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
         if(!isAuthenticated()){
             auth()
         }
         else{
+
             setupUi()
         }
     }
@@ -106,12 +123,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val filterDialog = FilterDialogFragment()
+
         when(item.itemId){
             R.id.filter -> {
                 println("filtring ... ")
+                filterDialog.show(supportFragmentManager, "filter-dialog")
                 return false
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+    fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }

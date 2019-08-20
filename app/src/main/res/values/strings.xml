@@ -14,6 +14,19 @@
         <item>Ain Defla</item>
         <item>Ain Defla</item>
     </string-array>
+    <string-array name="categories">
+        <item>Vente</item>
+        <item>Location</item>
+        <item>Echange</item>
+    </string-array>
+    <string-array name="types">
+        <item>Appartement</item>
+        <item>Villa</item>
+        <item>Terrain</item>
+    </string-array>
+    channel_description
+    <string name="channel_name">dz.immob</string>
+    <string name="channel_description">Anonces Notifications</string>
 </resources>
 
 

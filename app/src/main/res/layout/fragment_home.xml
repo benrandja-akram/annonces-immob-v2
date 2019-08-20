@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.HomeFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitesmoke"
-    android:id="@+id/annonces_swipe_refresh"
+
 >
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:background="@color/whitesmoke"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent" android:id="@+id/annonces_recycler"
-    />
-</LinearLayout>
+    >
+    </androidx.recyclerview.widget.RecyclerView>
+</FrameLayout>

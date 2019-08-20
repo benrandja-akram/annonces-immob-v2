@@ -26,16 +26,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         model = ViewModelProviders.of(activity!!)[AnnoncesViewModel::class.java]
-        model.items.observe(this, this)
-
-
-//        val items = model.filter(mapOf("wilaya" to "Oran"))
-//        Handler().postDelayed({
-//            this.onChanged(items.value)
-//        }, 10000)
-
     }
 
     override fun onCreateView(
@@ -48,8 +39,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.annonces_recycler.adapter = AnnoncesAdapter(model.items.value, this)
-
-
+        model.items.observe(this, this)
     }
 
     override fun onChanged(feed: List<Annonce>?) {
@@ -63,7 +53,6 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
                 notifyDataSetChanged()
             }
         }
-
     }
 
     override fun onFavChanged(id: String, value: Boolean) {
@@ -84,6 +73,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
         super.onPause()
         model.state = annonces_recycler.layoutManager?.onSaveInstanceState()
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.show()

@@ -25,6 +25,7 @@
                     android:layout_height="190dp"
                     app:srcCompat="@drawable/ic_launcher_background"
                     android:id="@+id/annonceImageView"
+                    android:background="@android:color/background_dark"
             />
             <View
                     android:layout_width="match_parent"
