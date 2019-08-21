@@ -1,6 +1,7 @@
 package dz.esi.immob.view
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import dz.esi.immob.AnnonceDetails
 
 import dz.esi.immob.R
 import dz.esi.immob.adapters.NotificationsAdapter
@@ -38,7 +40,9 @@ class NotificationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.notificationsRecycler.adapter = NotificationsAdapter(model.notifications.value)
+        view.notificationsRecycler.adapter = NotificationsAdapter(model.notifications.value).apply {
+            onAnnonceClicked = this@NotificationsFragment.onNotificationClicked
+        }
 
         model.notifications.observe(this, observer)
     }
@@ -47,7 +51,9 @@ class NotificationsFragment : Fragment() {
         Log.i("observernotif", annonces.toString())
         annonces ?: return@Observer
 
-        view?.notificationsRecycler?.adapter = NotificationsAdapter(annonces)
+        view?.notificationsRecycler?.adapter = NotificationsAdapter(annonces).apply {
+            onAnnonceClicked = this@NotificationsFragment.onNotificationClicked
+        }
     }
 
 
@@ -64,6 +70,16 @@ class NotificationsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        (activity as? AppCompatActivity)?.supportActionBar?.show()
+    }
+
+    val onNotificationClicked = object : NotificationsAdapter.OnAnnonceClicked {
+        override fun onClicked(id: String?) {
+            this@NotificationsFragment.startActivity(
+                Intent(context, AnnonceDetails::class.java).apply {
+                    putExtra("id", id)
+                }
+            )
+        }
     }
 
 }

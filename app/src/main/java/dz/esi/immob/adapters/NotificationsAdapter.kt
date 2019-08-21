@@ -11,7 +11,7 @@ import dz.esi.immob.repositories.Annonce
 
 class NotificationsAdapter(val notifications: List<Annonce>?) : RecyclerView.Adapter<NotificationsAdapter.MyViewHolder>(){
     class MyViewHolder( val binding: NotificationBinding): RecyclerView.ViewHolder(binding.root)
-
+    var onAnnonceClicked : OnAnnonceClicked? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
@@ -34,5 +34,13 @@ class NotificationsAdapter(val notifications: List<Annonce>?) : RecyclerView.Ada
             .circleCrop()
             .error(R.drawable.no_image_available)
             .into(holder.binding.image)
+        holder.binding.root.setOnClickListener{
+            onAnnonceClicked?.onClicked(notif?.id)
+        }
     }
+
+    interface OnAnnonceClicked {
+        fun onClicked(id: String?)
+    }
+
 }

@@ -59,7 +59,7 @@ class UserData private constructor() {
             db.collection("users")
                 .document(userId)
                 .collection("annonces")
-                .document(annonce.id!!.replace("/", "-"))
+                .document(annonce.id!!)
                 .set(annonce)
                 .addOnSuccessListener { documentReference ->
                     Log.i("addFavAnnonce", "prefred annocne $annonce")
@@ -75,7 +75,7 @@ class UserData private constructor() {
         db.collection("users")
             .document(userId)
             .collection("annonces")
-            .document(guid.replace("/", "-"))
+            .document(guid)
             .delete()
             .addOnSuccessListener { documentReference ->
                 Log.i("deletedPrefredAnnonce", "deleted annocne")
