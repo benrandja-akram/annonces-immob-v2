@@ -1,5 +1,6 @@
 package dz.esi.immob.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -11,8 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import dz.esi.immob.AnnonceDetails
 import dz.esi.immob.R
 import dz.esi.immob.adapters.AnnoncesAdapter
+import dz.esi.immob.adapters.NotificationsAdapter
 import dz.esi.immob.repositories.Annonce
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -51,6 +54,7 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
                 this as AnnoncesAdapter
                 annonces = feed
                 notifyDataSetChanged()
+                onAnnonceClicked = this@HomeFragment.onAnnonceClicked
             }
         }
     }
@@ -77,5 +81,14 @@ class HomeFragment : Fragment(), Observer<List<Annonce>>, AnnoncesAdapter.OnFavA
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        (activity as? AppCompatActivity)?.supportActionBar?.show()
+    }
+    val onAnnonceClicked = object : AnnoncesAdapter.OnAnnonceClicked {
+        override fun onClicked(id: String?) {
+            this@HomeFragment.startActivity(
+                Intent(context, AnnonceDetails::class.java).apply {
+                    putExtra("id", id)
+                }
+            )
+        }
     }
 }

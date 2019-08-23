@@ -36,18 +36,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
-            startService(Intent(this, FcmIntentService::class.java))
-            println("subscribed ... ")
-            Toast.makeText(this, "subscribed...", Toast.LENGTH_LONG)
-                .show()
-        })
+
         model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
         if(!isAuthenticated()){
             auth()
         }
         else{
-
             setupUi()
         }
     }
@@ -55,6 +49,12 @@ class MainActivity : AppCompatActivity() {
     private fun isAuthenticated() = FirebaseAuth.getInstance().currentUser != null
 
     private fun auth(){
+
+        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
+            startService(Intent(this, FcmIntentService::class.java))
+            println("subscribed ... ")
+        })
+
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
 //            AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -94,6 +94,8 @@ class MainActivity : AppCompatActivity() {
         model.feed.observe(this, Observer {
             model.updateItems()
         })
+        onSearchRequested()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

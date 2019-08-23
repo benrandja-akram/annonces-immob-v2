@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item android:id="@+id/home_fragment" android:title="Home" android:icon="@drawable/home"/>
     <item android:id="@+id/favoriteFragment" android:title="Favorites" android:icon="@drawable/fav"/>
-
-
     <item android:id="@+id/notificationsFragment" android:title="Notifications" android:icon="@drawable/notification_bell"/>
-    <item android:id="@+id/settings_fragment" android:title="Settings" android:icon="@android:drawable/ic_menu_manage"/>
+    <item android:id="@+id/settings_fragment" android:title="Settings" android:icon="@drawable/settings"/>
+
 </menu>

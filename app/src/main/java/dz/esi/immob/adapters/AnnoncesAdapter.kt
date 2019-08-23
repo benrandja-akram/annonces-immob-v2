@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.annonce.view.*
 
 class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavAnnonceChangedListener) :
     RecyclerView.Adapter<AnnoncesAdapter.MyViewHolder>() {
+    var onAnnonceClicked : OnAnnonceClicked? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = DataBindingUtil.inflate<AnnonceBinding>(
@@ -39,12 +40,6 @@ class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavA
                 annonce?.favorite = if(UserData.instance.getFavAnnonces().value?.find {it.id == annonce?.id } != null ) 1 else 0
             }
 
-            val circularProgressDrawable = CircularProgressDrawable(root.context)
-            circularProgressDrawable.strokeWidth = 5f
-            circularProgressDrawable.centerRadius = 30f
-            circularProgressDrawable.start()
-
-
             prefBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0, pref, p2 ->
                 annonce?.favorite = pref.toInt()
                 listener.onFavChanged(annonce?.id!!, pref == 1f)
@@ -52,18 +47,10 @@ class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavA
             Glide.with(root)
                 .load(annonce?.image)
                 .fitCenter()
-                .placeholder(circularProgressDrawable)
                 .error(R.drawable.no_image_available)
                 .into(root.annonceImageView)
-            annonce?.image?.let {
-                val bundle = Bundle()
-                bundle.putString("guid", annonce?.id)
-                root.setOnClickListener(
-                    Navigation.createNavigateOnClickListener(
-                        R.id.action_homeFragment_to_fullScreenImageFragment,
-                        bundle
-                    )
-                )
+            root.setOnClickListener{
+                onAnnonceClicked?.onClicked(annonce?.id)
             }
         }
     }
@@ -72,6 +59,9 @@ class AnnoncesAdapter(var annonces: List<Annonce>?, private var listener: OnFavA
 
     interface OnFavAnnonceChangedListener {
         fun onFavChanged(guid: String, value: Boolean)
+    }
+    interface OnAnnonceClicked {
+        fun onClicked(id: String?)
     }
 
 }

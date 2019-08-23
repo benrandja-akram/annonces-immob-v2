@@ -3,6 +3,7 @@ package dz.esi.immob.services
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -12,6 +13,10 @@ import com.google.firebase.messaging.RemoteMessage
 import dz.esi.immob.AnnonceDetails
 import dz.esi.immob.R
 import dz.esi.immob.repositories.NotificationsRepo
+import android.graphics.BitmapFactory
+
+import java.net.URL
+
 
 const val CHANNEL_ID = "dz.immob.annonces"
 
@@ -30,17 +35,15 @@ class FcmIntentService : FirebaseMessagingService() {
             val title = remoteMessage.data["title"]
             val annonceId = remoteMessage.data["id"]
             val contentText = remoteMessage.data["contentText"]
-
-            showNotification(annonceId, title, contentText, id++)
-
+            val image = remoteMessage.data["image"]
+            showNotification(annonceId, title, contentText, Math.random().toInt(), image)
             annonceId?.apply {
                 notificationRepo.addNotification(this)
             }
-
         }
     }
 
-    private fun showNotification(id: String?, title: String?, contentText: String?, notifId: Int) {
+    private fun showNotification(id: String?, title: String?, contentText: String?, notifId: Int, image: String?) {
 
         val resultIntent = Intent(this, AnnonceDetails::class.java)
         resultIntent.putExtra("id", id)
@@ -56,6 +59,19 @@ class FcmIntentService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
+            .also {builder ->
+                image?.let {image ->
+                    val url = URL(image)
+                    val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    builder.setStyle(
+                        NotificationCompat
+                            .BigPictureStyle()
+                            .bigPicture(bitmap)
+                    )
+
+                }
+
+            }
 
         NotificationManagerCompat.from(this).notify(notifId, builder.build())
     }
