@@ -2,12 +2,23 @@ package dz.esi.immob.repositories
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AnnoncesRepo private constructor() {
+
+class AnnoncesRepo private constructor(val uid: String?){
 
     companion object {
-        val instance = AnnoncesRepo()
+
+        private var lastInsance: AnnoncesRepo? = null
+
+        val instance :AnnoncesRepo
+        get(){
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if(lastInsance?.uid !==  uid) lastInsance = AnnoncesRepo(uid)
+
+            return lastInsance!!
+        }
     }
 
     var mFeed = MutableLiveData<List<Annonce>>()

@@ -1,17 +1,26 @@
 package dz.esi.immob.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class NotificationsRepo private constructor(){
+class NotificationsRepo private constructor(val uid: String?){
     var _notifications = MutableLiveData<List<Annonce>>()
     val db = FirebaseFirestore.getInstance()
     val annoncesRepo = AnnoncesRepo.instance
+
     companion object {
-        val instance = NotificationsRepo()
+        private var lastInsance: NotificationsRepo? = null
+
+        val instance :NotificationsRepo
+            get(){
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+                if(lastInsance?.uid !==  uid) lastInsance = NotificationsRepo(uid)
+
+                return lastInsance!!
+            }
     }
+
     val notifications: MutableLiveData<List<Annonce>>
         get() {
             if (_notifications.value == null) {
@@ -22,8 +31,6 @@ class NotificationsRepo private constructor(){
                         if (e != null) {
                             return@addSnapshotListener
                         }
-
-                        Log.i("observernotif", value?.toObjects(Annonce::class.java).toString())
                         _notifications.postValue(value?.toObjects(Annonce::class.java))
                     }
             }

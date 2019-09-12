@@ -11,19 +11,27 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 
 
-class UserData private constructor() {
+class UserData private constructor(val uid: String?) {
     val db = FirebaseFirestore.getInstance()
     var annonces = MutableLiveData<List<Annonce>>()
     val wilaya = MutableLiveData<String>()
 
     companion object {
-        val instance = UserData()
+        private var lastInsance: UserData? = null
+
+        val instance :UserData
+            get(){
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+                if(lastInsance?.uid !==  uid) lastInsance = UserData(uid)
+
+                return lastInsance!!
+            }
     }
 
-    init {
-        getFavAnnonces()
-        getFavWilaya()
-    }
+//    init {
+//        getFavAnnonces()
+//        getFavWilaya()
+//    }
 
     fun setFavWilaya(wilaya: String?) {
         db.collection("users")

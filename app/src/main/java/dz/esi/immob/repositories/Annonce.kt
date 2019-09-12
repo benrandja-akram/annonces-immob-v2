@@ -28,13 +28,5 @@ data class Annonce (
     val publish: String?
         get() = SimpleDateFormat("yyyy-MM-dd").format(published)
 
-//    @BindingAdapter("image")
-//    fun loadImage(view: ImageView, url: String){
-//        Glide.with(view)
-//            .load(url)
-//            .error(R.drawable.no_image_available)
-//            .fitCenter()
-//            .into(view)
-//    }
 
 }

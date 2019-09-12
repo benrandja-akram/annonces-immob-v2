@@ -3,7 +3,6 @@ package dz.esi.immob.services
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -59,16 +58,15 @@ class FcmIntentService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
-            .also {builder ->
+            .apply {
                 image?.let {image ->
                     val url = URL(image)
                     val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    builder.setStyle(
+                    setStyle(
                         NotificationCompat
                             .BigPictureStyle()
                             .bigPicture(bitmap)
                     )
-
                 }
 
             }

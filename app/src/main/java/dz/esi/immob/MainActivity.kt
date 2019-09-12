@@ -26,19 +26,25 @@ import dz.esi.immob.services.FcmIntentService
 import dz.esi.immob.view.FilterDialogFragment
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import android.R.attr.data
+import com.firebase.ui.auth.IdpResponse
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.Handler
+import androidx.navigation.NavDestination
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var model: AnnoncesViewModel
 
     private val RC_SIGN_IN_FIREBASE = 4
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
 
-        model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
-        if(!isAuthenticated()){
+        if(!isAuthenticated){
             auth()
         }
         else{
@@ -46,18 +52,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun isAuthenticated() = FirebaseAuth.getInstance().currentUser != null
+    private val isAuthenticated
+        get() = FirebaseAuth.getInstance().currentUser != null
 
     private fun auth(){
 
-        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
-            startService(Intent(this, FcmIntentService::class.java))
-            println("subscribed ... ")
-        })
+        println("auth-service started")
+        FirebaseAuth.getInstance().signOut()
 
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
 //            AuthUI.IdpConfig.FacebookBuilder().build(),
+            AuthUI.IdpConfig.AnonymousBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
         // Create and launch sign-in intent
@@ -79,6 +85,9 @@ class MainActivity : AppCompatActivity() {
                 setupUi()
 //                startMainActivity()
             } else {
+                println("auth-service error ")
+                val response = IdpResponse.fromResultIntent(data)
+                println(response?.error?.errorCode)
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
@@ -91,6 +100,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         bottomNavigationView.setupWithNavController(findNavController(R.id.main_nav_host_fragment))
         setSupportActionBar(mainToolbar)
+
+        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
+            startService(Intent(this, FcmIntentService::class.java))
+            println("subscribed ... ")
+        })
+
+
+        model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
+
         model.feed.observe(this, Observer {
             model.updateItems()
         })
@@ -111,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    findNavController(R.id.main_nav_host_fragment).navigate(R.id.home_fragment)
                     model.filter(newText?.trim() ?: "")
                     return true
                 }
