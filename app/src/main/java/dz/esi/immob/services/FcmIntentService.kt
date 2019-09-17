@@ -15,6 +15,9 @@ import dz.esi.immob.repositories.NotificationsRepo
 import android.graphics.BitmapFactory
 
 import java.net.URL
+import kotlin.random.Random
+import android.media.RingtoneManager
+
 
 
 const val CHANNEL_ID = "dz.immob.annonces"
@@ -35,7 +38,7 @@ class FcmIntentService : FirebaseMessagingService() {
             val annonceId = remoteMessage.data["id"]
             val contentText = remoteMessage.data["contentText"]
             val image = remoteMessage.data["image"]
-            showNotification(annonceId, title, contentText, Math.random().toInt(), image)
+            showNotification(annonceId, title, contentText, Random.nextInt(0, Int.MAX_VALUE), image)
             annonceId?.apply {
                 notificationRepo.addNotification(this)
             }
@@ -50,12 +53,13 @@ class FcmIntentService : FirebaseMessagingService() {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         }
-
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle(title)
             .setContentText(contentText)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(defaultSoundUri)
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
             .apply {

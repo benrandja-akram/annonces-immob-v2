@@ -46,6 +46,9 @@ class NotificationsRepo private constructor(val uid: String?){
                     .collection("notifications")
                     .document(id)
                     .set(it)
+                    .addOnSuccessListener {
+                        println("added notif  $id")
+                    }
             }
 
         }

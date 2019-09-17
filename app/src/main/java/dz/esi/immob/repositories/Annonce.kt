@@ -18,9 +18,10 @@ data class Annonce (
     val category: String?= null,
     val type: String?= null,
     val wilaya: String?= null,
-    val price: String? = null,
-    val surface: String? = null,
-    val contact: String? = null,
+    val address: String? = "Not mentioned",
+    val price: String? = "Not mentioned",
+    val surface: String? = "Not mentioned",
+    val contact: String? = "Not mentioned",
     val published: Date? = null,
     var favorite: Int? = null,
     var image: String? = null

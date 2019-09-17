@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Handler
 import androidx.navigation.NavDestination
+import kotlinx.android.synthetic.main.activity_annonce_details.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-
+        setContentView(R.layout.progress)
         if(!isAuthenticated){
             auth()
         }
@@ -62,15 +63,16 @@ class MainActivity : AppCompatActivity() {
 
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
-//            AuthUI.IdpConfig.FacebookBuilder().build(),
-            AuthUI.IdpConfig.AnonymousBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
+            AuthUI.IdpConfig.FacebookBuilder().build(),
+            AuthUI.IdpConfig.AnonymousBuilder().build()
+//            AuthUI.IdpConfig.GoogleBuilder().build()
         )
         // Create and launch sign-in intent
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setLogo(R.drawable.logo)
                 .build(),
             RC_SIGN_IN_FIREBASE)
     }
@@ -100,13 +102,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         bottomNavigationView.setupWithNavController(findNavController(R.id.main_nav_host_fragment))
         setSupportActionBar(mainToolbar)
-
-        UserData.instance.subscribeToTopic("newAnnonce", Runnable {
-            startService(Intent(this, FcmIntentService::class.java))
-            println("subscribed ... ")
-        })
-
-
+        mainToolbar.setNavigationIcon(R.drawable.logo_app)
+        findNavController(R.id.main_nav_host_fragment).navigate(R.id.home_fragment)
         model = ViewModelProviders.of(this)[AnnoncesViewModel::class.java]
 
         model.feed.observe(this, Observer {
@@ -150,14 +147,14 @@ class MainActivity : AppCompatActivity() {
             R.id.filter -> {
                 println("filtring ... ")
                 filterDialog.show(supportFragmentManager, "filter-dialog")
+                findNavController(R.id.main_nav_host_fragment).navigate(R.id.home_fragment)
+
                 return false
             }
         }
         return super.onOptionsItemSelected(item)
     }
-    fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)

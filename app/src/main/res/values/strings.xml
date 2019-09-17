@@ -4,15 +4,58 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="facebook_application_id">480681409409518</string>
+    <string name="facebook_application_id" translatable="false">480681409409518 </string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb480681409409518</string>
+
     <string-array name="wilayas">
-        <item>Ain Defla</item>
+        <item>Adrar</item>
+        <item>Chlef</item>
+        <item>Laghouat</item>
+        <item>Oum el-Bouaghi</item>
+        <item>Batna</item>
+        <item>Béjaia</item>
+        <item>Biskra</item>
+        <item>Bechar</item>
+        <item>Blida</item>
+        <item>Bouira</item>
+        <item>Tamanrasset</item>
+        <item>Tébessa</item>
+        <item>Tlemcen</item>
+        <item>Tiaret</item>
+        <item>Tizi Ouzou</item>
         <item>Alger</item>
-        <item>Tizi ouzou</item>
+        <item>Djelfa</item>
+        <item>Jijel</item>
+        <item>Sétif</item>
+        <item>Saida</item>
+        <item>Skikda</item>
+        <item>Sidi Bel Abbès</item>
+        <item>Annaba</item>
+        <item>Guelma</item>
+        <item>Constantine</item>
+        <item>Médéa</item>
+        <item>Mostaganem</item>
+        <item>MSila</item>
+        <item>Mascara</item>
+        <item>Ouargla</item>
+        <item>Oran</item>
+        <item>Bayadh</item>
+        <item>Illizi</item>
+        <item>Bordj Bou Arreridj</item>
+        <item>Boumerdès</item>
+        <item>El Tarf</item>
+        <item>Tindouf</item>
+        <item>Tissemsilt</item>
+        <item>El Oued</item>
+        <item>Khenchela</item>
+        <item>Souk Ahras</item>
+        <item>Tipaza</item>
+        <item>Mila</item>
         <item>Ain Defla</item>
-        <item>Ain Defla</item>
-        <item>Ain Defla</item>
-        <item>Ain Defla</item>
+        <item>Naama</item>
+        <item>Ain Témouchent</item>
+        <item>Ghardaia</item>
+        <item>Relizane</item>
     </string-array>
     <string-array name="categories">
         <item>Vente</item>
@@ -20,7 +63,7 @@
         <item>Echange</item>
     </string-array>
     <string-array name="types">
-        <item>Appartement</item>
+        <item>Appart</item>
         <item>Villa</item>
         <item>Terrain</item>
     </string-array>

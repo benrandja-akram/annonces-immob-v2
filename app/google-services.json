@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "790320723989-qeu14et9sgqa6bv739b1gv4fl2uh6eqk.apps.googleusercontent.com",
+          "client_id": "790320723989-3vrfis81nsd5803obsqldt5989qjonek.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "dz.esi.immob",
-            "certificate_hash": "5ae91ea93765c4544ef6e72373cd450ef4c12a38"
+            "certificate_hash": "5a3dea61b5aaaa83e3367fa3933d61f3f35a44bf"
           }
         },
         {
@@ -29,14 +29,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTmlxvLSjuOcGkx2lTUYJSnk-Hql_e0j0"
+          "current_key": "AIzaSyDQQLMdp-LgKotrBXdruf9K4gGNTmeCxQs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "790320723989-8mv3tuj3ldg4alni26jf1b2dausebsgo.apps.googleusercontent.com",
+              "client_id": "790320723989-8qfhh9he91f1ui21gu20kr3raq2ajgkr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

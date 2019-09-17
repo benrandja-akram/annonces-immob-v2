@@ -28,21 +28,23 @@ class UserData private constructor(val uid: String?) {
             }
     }
 
-//    init {
+    init {
 //        getFavAnnonces()
-//        getFavWilaya()
-//    }
+        getFavWilaya()
+    }
 
     fun setFavWilaya(wilaya: String?) {
+
+
+        subscribeToTopic(wilaya!!, Runnable {
+            println("subscribed to ... $wilaya")
+        })
+
+        unSubscribeToTopic(this.getFavWilaya().value)
+
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser?.uid!!)
             .set(User(wilaya), SetOptions.merge())
-    }
-
-    fun putString(key: String?, value: String?){
-        db.collection("users")
-            .document(FirebaseAuth.getInstance().currentUser?.uid!!)
-            .set(mapOf(key to value), SetOptions.merge())
     }
 
     fun getFavWilaya(): MutableLiveData<String> {
@@ -111,21 +113,38 @@ class UserData private constructor(val uid: String?) {
         return annonces
     }
 
-    fun subscribeToTopic(topic: String, onSuccess: Runnable){
-        Log.i("fcmservice", "subscribing ...")
+    fun subscribeToTopic(topic: String?, onSuccess: Runnable){
+        val newTopic = topic?.replace(" ", "")?.toLowerCase()
 
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        FirebaseMessaging.getInstance().subscribeToTopic(newTopic)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     onSuccess.run()
-                    Log.i("fcmservice", "scuccesfult subscription ... ")
+                    Log.i("fcmservice", "scuccesfult subscription ... " + topic)
 
                 }else
-                    Log.i("fcmservice", "failed subscription ... ")
+                    Log.i("fcmservice", "failed subscription ... "+ topic)
 
             }
             .addOnFailureListener{
-                Log.i("fcmservice", "addOnFailureListener subscription ... ")
+                Log.i("fcmservice", "addOnFailureListener subscription ... "+ topic)
+
+            }
+
+    }
+    fun unSubscribeToTopic(topic: String?){
+        if(topic == null) return
+        val newTopic = topic?.replace(" ", "")?.toLowerCase()
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(newTopic)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.i("fcmservice", "scuccesfult unsubscription ... " + topic)
+                }else
+                    Log.i("fcmservice", "failed unsubscription ... ")
+
+            }
+            .addOnFailureListener{
+                Log.i("fcmservice", "addOnFailureListener unsubscription ... " + topic)
 
             }
 

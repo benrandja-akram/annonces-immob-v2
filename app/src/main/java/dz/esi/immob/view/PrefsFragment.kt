@@ -19,7 +19,14 @@ class PrefsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val preference = findPreference<ListPreference>("wilaya")
         preference?.preferenceDataStore = dataStore
-        UserData.instance.wilaya.observe(this, Observer { wilaya ->
+
+        println(UserData.instance.wilaya.value)
+
+        preference?.value = UserData.instance.wilaya.value
+        preference?.summary = UserData.instance.wilaya.value
+
+
+        UserData.instance.getFavWilaya().observe(this, Observer { wilaya ->
             preference?.value = wilaya
             preference?.summary = dataStore.getString("wilaya", "")
         })

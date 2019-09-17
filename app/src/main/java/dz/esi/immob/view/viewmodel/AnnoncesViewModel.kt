@@ -33,29 +33,20 @@ class AnnoncesViewModel : ViewModel() {
     }
 
     fun filter(wilaya: String?, category: String?, type: String?){
-        unfilterItems = items.value
-
+        cancelFilter()
         items.value = items.value?.filter {annonce ->
-//            wilaya?.let {
-//                (it == annonce.wilaya)
-//            } ?: true && category?.let {
-//                (it == annonce.category)
-//            } ?: true && type?.let {
-//                it == annonce.type
-//            } ?: true
-            val isSameWilaya = if(wilaya == null) true else wilaya == annonce.wilaya
-            val isSameCategory = if(category == null) true else category == annonce.category
-            val isSameType = if(type == null) true else type == annonce.type
 
-            isSameWilaya && isSameCategory && isSameType && false
+            val isSameWilaya = if(wilaya == null) true else wilaya.toLowerCase() == annonce.wilaya?.toLowerCase()
+            val isSameCategory = if(category == null) true else category.toLowerCase() == annonce.category?.toLowerCase()
+            val isSameType = if(type == null) true else type.toLowerCase() == annonce.type?.toLowerCase()
+
+            isSameWilaya && isSameCategory && isSameType
 
         }.also{
             Log.i("FilterDialogFragment", it?.size.toString())
         }
     }
-    fun cancelDialogFilter(){
-        items.value = unfilterItems
-    }
+
     fun cancelFilter(){
         items.value = feed.value
     }
