@@ -3,6 +3,7 @@ package dz.esi.immob.services
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -55,13 +56,14 @@ class FcmIntentService : FirebaseMessagingService() {
         }
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.home_256)
             .setContentTitle(title)
             .setContentText(contentText)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultSoundUri)
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
+
             .apply {
                 image?.let {image ->
                     val url = URL(image)

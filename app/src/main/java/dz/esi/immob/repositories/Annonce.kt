@@ -22,6 +22,7 @@ data class Annonce (
     val price: String? = "Not mentioned",
     val surface: String? = "Not mentioned",
     val contact: String? = "Not mentioned",
+    val link: String? = "No Link",
     val published: Date? = null,
     var favorite: Int? = null,
     var image: String? = null

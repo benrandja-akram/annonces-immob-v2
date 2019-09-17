@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.logo)
+                .setLogo(R.drawable.home_256)
                 .build(),
             RC_SIGN_IN_FIREBASE)
     }
