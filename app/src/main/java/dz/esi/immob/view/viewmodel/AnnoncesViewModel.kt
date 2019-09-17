@@ -20,7 +20,6 @@ class AnnoncesViewModel : ViewModel() {
     val items = MutableLiveData<List<Annonce>>().also {
         it.value = feed.value
     }
-    var unfilterItems: List<Annonce>? = null
 
     val favorites = userRepo.getFavAnnonces()
     var state: Parcelable? = null
@@ -34,8 +33,9 @@ class AnnoncesViewModel : ViewModel() {
 
     fun filter(wilaya: String?, category: String?, type: String?){
         cancelFilter()
+        println("wilaya $wilaya category $category type $type")
         items.value = items.value?.filter {annonce ->
-
+            if(annonce.wilaya == "Blida") println("blida at ")
             val isSameWilaya = if(wilaya == null) true else wilaya.toLowerCase() == annonce.wilaya?.toLowerCase()
             val isSameCategory = if(category == null) true else category.toLowerCase() == annonce.category?.toLowerCase()
             val isSameType = if(type == null) true else type.toLowerCase() == annonce.type?.toLowerCase()

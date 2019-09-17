@@ -12,6 +12,11 @@ import dz.esi.immob.R
 import dz.esi.immob.view.viewmodel.AnnoncesViewModel
 import kotlinx.android.synthetic.main.filter_dialog.*
 
+
+var wilayaPos = 0
+var categoryPos = 0
+var typePos = 0
+
 class FilterDialogFragment : DialogFragment() {
 
     lateinit var model: AnnoncesViewModel
@@ -32,27 +37,41 @@ class FilterDialogFragment : DialogFragment() {
         dialog?.setTitle("Filter")
         Log.i("FilterDialogFragment", "onViewCreated " + wilaya + category + type + view)
 
-        wilayaSpinner?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                wilaya = p0?.getItemAtPosition(pos) as? String
-            }
-        }
+        categorySpinner.setSelection(categoryPos)
         categorySpinner?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 category = p0?.getItemAtPosition(pos) as? String
+                categoryPos = pos
+                println("category $pos")
             }
         }
+
+        wilayaSpinner.setSelection(wilayaPos)
+        wilayaSpinner?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                wilaya = p0?.getItemAtPosition(pos) as? String
+                wilayaPos = pos
+                println("wilaya $pos")
+            }
+        }
+
+        typeSpinner.setSelection(typePos)
         typeSpinner?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 type = p0?.getItemAtPosition(pos) as? String
+                typePos = pos
+                println("type $pos")
+
             }
         }
+
+
         ok.setOnClickListener{
             model.filter(wilaya, category, type)
             dialog?.cancel()
@@ -61,6 +80,11 @@ class FilterDialogFragment : DialogFragment() {
         cancel.setOnClickListener{
             model.cancelFilter()
             dialog?.cancel()
+
+            wilayaPos = 0
+            categoryPos = 0
+            typePos = 0
+
             Log.i("FilterDialogFragment", "onViewCreated " + wilaya + category + type + view)
         }
     }
